@@ -82,6 +82,67 @@
             color: #0a0a0a;
         }
 
+        /* Hamburger menu for mobile */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: #00ff88;
+            transition: all 0.3s;
+        }
+
+        .hamburger.open span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.open span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Mobile nav overlay */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 64px;
+            left: 0;
+            right: 0;
+            background: #111;
+            border-bottom: 2px solid #00ff88;
+            padding: 1.5rem;
+            z-index: 999;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .mobile-nav.open {
+            display: flex;
+        }
+
+        .mobile-nav a {
+            color: #00ff88;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #222;
+        }
+
+        .mobile-nav .mobile-lang {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
         /* Main container */
         .container {
             max-width: 1200px;
@@ -108,6 +169,7 @@
             border: 3px solid #00ff88;
             object-fit: cover;
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            flex-shrink: 0;
         }
 
         .header-content {
@@ -122,9 +184,27 @@
         }
 
         .header-content .title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #cccccc;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .header-content .subtitle-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+
+        .badge {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
         }
 
         .header-content .location {
@@ -376,11 +456,6 @@
             border-color: #00ff88;
             box-shadow: 0 0 25px rgba(0, 255, 136, 0.7);
         }
-        .download-cv-button i {
-            margin-right: 10px;
-            font-size: 1.5rem;
-            vertical-align: middle;
-        }
         .download-note {
             color: #aaa;
             margin-top: 1rem;
@@ -476,56 +551,107 @@
         }
 
         /* Language content visibility */
-        .lang-en, .lang-fr {
-            transition: opacity 0.3s ease;
-        }
-
-        body.lang-mode-fr .lang-en {
-            display: none;
-        }
-
-        body.lang-mode-en .lang-fr {
-            display: none;
-        }
+        body.lang-mode-fr .lang-en { display: none !important; }
+        body.lang-mode-en .lang-fr { display: none !important; }
 
         /* Responsive */
         @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
             .header {
                 flex-direction: column;
                 text-align: center;
+                padding: 2rem 1.5rem;
+                gap: 1.5rem;
+            }
+
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+
+            .header-content h1 {
+                font-size: 2rem;
+            }
+
+            .header-content .title {
+                font-size: 1rem;
+            }
+
+            .header-content .subtitle-badges {
+                justify-content: center;
             }
 
             .nav-container {
-                flex-direction: column;
-                gap: 1rem;
+                flex-direction: row;
+                justify-content: space-between;
             }
 
             .nav-links {
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
+                display: none;
             }
-            
-            .header h1 {
-                font-size: 2rem;
+
+            .language-selector {
+                display: none;
             }
-            
-            .contact-grid {
-                grid-template-columns: 1fr;
+
+            .hamburger {
+                display: flex;
             }
-            
+
+            .section {
+                padding: 1.5rem 1rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
             .skills-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
             .certificate-row {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            
+
             .certificate-link {
                 text-align: left;
                 width: 100%;
+                font-size: 0.75rem;
+            }
+
+            .download-cv-button {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 42px;
+                height: 42px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-content h1 {
+                font-size: 1.7rem;
             }
         }
     </style>
@@ -537,22 +663,16 @@
             <ul class="nav-links">
                 <li class="lang-en"><a href="#home">Home</a></li>
                 <li class="lang-fr" style="display: none;"><a href="#home">Accueil</a></li>
-                
                 <li class="lang-en"><a href="#skills">Skills</a></li>
                 <li class="lang-fr" style="display: none;"><a href="#skills">Compétences</a></li>
-                
                 <li class="lang-en"><a href="#experience">Experience</a></li>
                 <li class="lang-fr" style="display: none;"><a href="#experience">Expérience</a></li>
-                
                 <li class="lang-en"><a href="#projects">Projects</a></li>
                 <li class="lang-fr" style="display: none;"><a href="#projects">Projets</a></li>
-                
                 <li class="lang-en"><a href="#education">Education</a></li>
                 <li class="lang-fr" style="display: none;"><a href="#education">Formation</a></li>
-                
                 <li class="lang-en"><a href="#certificates">Certificates</a></li>
                 <li class="lang-fr" style="display: none;"><a href="#certificates">Certificats</a></li>
-                
                 <li class="lang-en"><a href="#contact">Contact</a></li>
                 <li class="lang-fr" style="display: none;"><a href="#contact">Contact</a></li>
             </ul>
@@ -560,8 +680,33 @@
                 <button class="lang-btn" onclick="switchLanguage('fr')">FR</button>
                 <button class="lang-btn active" onclick="switchLanguage('en')">EN</button>
             </div>
+            <!-- Hamburger (mobile only) -->
+            <div class="hamburger" id="hamburger" onclick="toggleMobileNav()">
+                <span></span><span></span><span></span>
+            </div>
         </div>
     </nav>
+
+    <!-- Mobile nav overlay -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="#home" onclick="closeMobileNav()" class="lang-en">Home</a>
+        <a href="#home" onclick="closeMobileNav()" class="lang-fr" style="display:none">Accueil</a>
+        <a href="#skills" onclick="closeMobileNav()" class="lang-en">Skills</a>
+        <a href="#skills" onclick="closeMobileNav()" class="lang-fr" style="display:none">Compétences</a>
+        <a href="#experience" onclick="closeMobileNav()" class="lang-en">Experience</a>
+        <a href="#experience" onclick="closeMobileNav()" class="lang-fr" style="display:none">Expérience</a>
+        <a href="#projects" onclick="closeMobileNav()" class="lang-en">Projects</a>
+        <a href="#projects" onclick="closeMobileNav()" class="lang-fr" style="display:none">Projets</a>
+        <a href="#education" onclick="closeMobileNav()" class="lang-en">Education</a>
+        <a href="#education" onclick="closeMobileNav()" class="lang-fr" style="display:none">Formation</a>
+        <a href="#certificates" onclick="closeMobileNav()" class="lang-en">Certificates</a>
+        <a href="#certificates" onclick="closeMobileNav()" class="lang-fr" style="display:none">Certificats</a>
+        <a href="#contact" onclick="closeMobileNav()">Contact</a>
+        <div class="mobile-lang">
+            <button class="lang-btn" onclick="switchLanguage('fr'); closeMobileNav()">FR</button>
+            <button class="lang-btn active" id="mobileLangEn" onclick="switchLanguage('en'); closeMobileNav()">EN</button>
+        </div>
+    </div>
 
     <!-- Main content -->
     <div class="container">
@@ -571,40 +716,39 @@
             <div class="header-content">
                 <h1>Ismail JIRARI</h1>
                 <!-- English version -->
-                <div class="title lang-en">Computer Engineering and Systems Management Student</div>
+                <div class="title lang-en">2nd-Year Engineering Student · Computer Science & Information Systems Management</div>
                 <!-- French version -->
-                <div class="title lang-fr" style="display: none;">Étudiant en Ingénierie Informatique et Management des Systèmes</div>
+                <div class="title lang-fr" style="display: none;">Étudiant en 2ᵉ année du cycle d'ingénieur d'État · Informatique & Management des Systèmes</div>
+                <div class="subtitle-badges">
+                    <span class="badge">AI</span>
+                    <span class="badge">Data Engineering</span>
+                    <span class="badge">MLOps</span>
+                    <span class="badge lang-en">Open to PFE Internship</span>
+                    <span class="badge lang-fr" style="display:none">Recherche Stage PFE</span>
+                </div>
             </div>
         </section>
 
         <!-- Professional Profile -->
         <section class="section">
-            <!-- English version -->
             <h2 class="section-title lang-en">PROFESSIONAL PROFILE</h2>
-            <!-- French version -->
             <h2 class="section-title lang-fr" style="display: none;">PROFIL PROFESSIONNEL</h2>
-            
-            <!-- English version -->
+
             <p class="profile-text lang-en">
-                Computer Engineering and Systems Management student, currently in 2nd year, seeking an internship focused on Artificial Intelligence and Data Engineering. Passionate about data analysis, data pipeline design, and development of intelligent solutions. Looking to join a dynamic team to contribute to concrete projects with high added value.
+                Second-year engineering student in Computer Science &amp; Information Systems Management, specializing in Data Engineering. I design modern data architectures by developing scalable pipelines, optimizing ETL processes, and integrating applied AI solutions — particularly around RAG systems and cloud environments — while leveraging solid foundations in backend development and API design. I have also gained hands-on exposure to MLOps practices, including model versioning, pipeline automation, and deployment workflows using tools such as MLflow and CI/CD integrations. I work following the Agile Scrum methodology and use Jira for project tracking and team collaboration. Currently seeking a PFE internship in Data Engineering, MLOps, or Generative AI.
             </p>
-            <!-- French version -->
             <p class="profile-text lang-fr" style="display: none;">
-                Étudiant en Génie Informatique et Management des Systèmes, actuellement en 2ème année, à la recherche d'un stage axé sur l'Intelligence Artificielle et le Data Engineering. Passionné par l'analyse de données, la conception de pipelines de données et le développement de solutions intelligentes. Souhaite rejoindre une équipe dynamique pour contribuer à des projets concrets à forte valeur ajoutée.
+                Étudiant en 2ᵉ année du cycle d'ingénieur d'État en Informatique &amp; Management des Systèmes, spécialisé en Data Engineering. Je conçois des architectures de données modernes en développant des pipelines scalables, en optimisant des processus ETL et en intégrant des solutions IA appliquées — notamment autour des systèmes RAG et des environnements cloud — tout en m'appuyant sur de solides bases en développement backend et conception d'API. J'ai également acquis une expérience pratique en MLOps, notamment en versionnage de modèles, automatisation de pipelines et workflows de déploiement avec des outils comme MLflow et les intégrations CI/CD. Je travaille selon la méthodologie Agile Scrum et utilise Jira pour le suivi de projets. Actuellement à la recherche d'un stage PFE en Data Engineering, MLOps ou IA Générative.
             </p>
         </section>
 
         <!-- Skills Section -->
         <section id="skills" class="section">
-            <!-- English version -->
             <h2 class="section-title lang-en">SKILLS</h2>
-            <!-- French version -->
             <h2 class="section-title lang-fr" style="display: none;">COMPÉTENCES</h2>
-            
+
             <div class="skills-category">
-                <!-- English version -->
                 <h3 class="lang-en">Programming Languages</h3>
-                <!-- French version -->
                 <h3 class="lang-fr" style="display: none;">Langages de Programmation</h3>
                 <div class="skills-grid">
                     <div class="skill-item">Python (Pandas, NumPy, Scikit-learn, TensorFlow)</div>
@@ -616,10 +760,7 @@
             </div>
 
             <div class="skills-category">
-                <!-- English version -->
-                <h3 class="lang-en">Backend & Frontend</h3>
-                <!-- French version -->
-                <h3 class="lang-fr" style="display: none;">Backend & Frontend</h3>
+                <h3>Backend &amp; Frontend</h3>
                 <div class="skills-grid">
                     <div class="skill-item">FastAPI / Flask / Django / Spring Boot</div>
                     <div class="skill-item">React.js</div>
@@ -628,294 +769,233 @@
             </div>
 
             <div class="skills-category">
-                <!-- English version -->
-                <h3 class="lang-en">Data & AI</h3>
-                <!-- French version -->
-                <h3 class="lang-fr" style="display: none;">Data & IA</h3>
+                <h3 class="lang-en">Data &amp; AI</h3>
+                <h3 class="lang-fr" style="display: none;">Data &amp; IA</h3>
                 <div class="skills-grid">
                     <div class="skill-item">Machine Learning / Deep Learning</div>
-                    <div class="skill-item">ETL </div>
-                    <div class="skill-item">RAG / Vector Databases /LangChain</div>
+                    <div class="skill-item">ETL / Data Pipelines</div>
+                    <div class="skill-item">RAG / Vector Databases / LangChain</div>
+                    <div class="skill-item lang-en">MLOps (MLflow, CI/CD)</div>
+                    <div class="skill-item lang-fr" style="display:none">MLOps (MLflow, CI/CD)</div>
+                    <div class="skill-item">Apache Kafka / Spark</div>
+                    <div class="skill-item">Agile Scrum / Jira</div>
                 </div>
             </div>
 
             <div class="skills-category">
-                <!-- English version -->
                 <h3 class="lang-en">Databases</h3>
-                <!-- French version -->
                 <h3 class="lang-fr" style="display: none;">Bases de Données</h3>
                 <div class="skills-grid">
                     <div class="skill-item">SQL (MySQL, PostgreSQL, SQLite, Oracle)</div>
                     <div class="skill-item">NoSQL (MongoDB, Redis)</div>
+                    <div class="skill-item">ChromaDB (Vector DB)</div>
                 </div>
             </div>
 
             <div class="skills-category">
-                <!-- English version -->
-                <h3 class="lang-en">Data Visualization & Tools</h3>
-                <!-- French version -->
-                <h3 class="lang-fr" style="display: none;">Visualisation de Données & Outils</h3>
+                <h3 class="lang-en">Data Visualization &amp; Tools</h3>
+                <h3 class="lang-fr" style="display: none;">Visualisation de Données &amp; Outils</h3>
                 <div class="skills-grid">
                     <div class="skill-item">Streamlit / Matplotlib / Seaborn</div>
                     <div class="skill-item">Power BI</div>
-                    <div class="skill-item">CATIA V5</div>
                     <div class="skill-item">KNIME</div>
                     <div class="skill-item">Excel</div>
                     <div class="skill-item">SAP</div>
+                    <div class="skill-item">CATIA V5</div>
                 </div>
             </div>
 
             <div class="skills-category">
-                <!-- English version -->
-                <h3 class="lang-en">DevOps & Tools</h3>
-                <!-- French version -->
-                <h3 class="lang-fr" style="display: none;">DevOps & Outils</h3>
+                <h3 class="lang-en">DevOps &amp; Tools</h3>
+                <h3 class="lang-fr" style="display: none;">DevOps &amp; Outils</h3>
                 <div class="skills-grid">
                     <div class="skill-item">Docker</div>
                     <div class="skill-item">Linux</div>
-                    <div class="skill-item">Git/GitHub</div>
+                    <div class="skill-item">Git / GitHub</div>
+                    <div class="skill-item">MLflow</div>
+                    <div class="skill-item">LangSmith</div>
                 </div>
             </div>
         </section>
 
         <!-- Experience Section -->
         <section id="experience" class="section">
-            <!-- English version -->
             <h2 class="section-title lang-en">PROFESSIONAL EXPERIENCE</h2>
-            <!-- French version -->
             <h2 class="section-title lang-fr" style="display: none;">EXPÉRIENCE PROFESSIONNELLE</h2>
-            
+
             <div class="experience-item">
-                <!-- English version -->
-                <h3 class="lang-en">Internship - AI Solution Development</h3>
-                <!-- French version -->
-                <h3 class="lang-fr" style="display: none;">Stage - Développement de Solution IA</h3>
-                <div class="company">PortNet - National Single Window for Foreign Trade Procedures</div>
-                <div class="date">2024 - 2025</div>
-                <!-- English version -->
-                <p class="lang-en">Development of an AI solution based on the RAG (Retrieval-Augmented Generation) method using LangChain, aimed at automating the classification of goods according to the Harmonized System (HS), a strategic issue in international trade.</p>
-                <!-- French version -->
-                <p class="lang-fr" style="display: none;">Développement d'une solution IA basée sur la méthode RAG (Retrieval-Augmented Generation) utilisant LangChain, visant à automatiser la classification des marchandises selon le Système Harmonisé (SH), un enjeu stratégique dans le commerce international.</p>
-                <div class="project-tech">Technologies: Flask, Postgres, Langchain, ChromaDb, React, Langsmith</div>
+                <h3 class="lang-en">Internship — AI Solution Development</h3>
+                <h3 class="lang-fr" style="display: none;">Stage — Développement de Solution IA</h3>
+                <div class="company">PortNet — National Single Window for Foreign Trade Procedures</div>
+                <div class="date">2024 – 2025</div>
+                <p class="lang-en">Development of an AI solution based on the RAG (Retrieval-Augmented Generation) method using LangChain, aimed at automating the classification of goods according to the Harmonized System (HS), a strategic issue in international trade. Integrated LangSmith for pipeline observability and tracing.</p>
+                <p class="lang-fr" style="display: none;">Développement d'une solution IA basée sur la méthode RAG (Retrieval-Augmented Generation) utilisant LangChain, visant à automatiser la classification des marchandises selon le Système Harmonisé (SH), un enjeu stratégique dans le commerce international. Intégration de LangSmith pour l'observabilité et le traçage du pipeline.</p>
+                <div class="project-tech">Technologies: Flask, PostgreSQL, LangChain, ChromaDB, React, LangSmith</div>
             </div>
         </section>
 
         <!-- Projects Section -->
         <section id="projects" class="section">
-            <!-- English version -->
             <h2 class="section-title lang-en">PROJECTS</h2>
-            <!-- French version -->
             <h2 class="section-title lang-fr" style="display: none;">PROJETS</h2>
-            
+
             <div class="projects-grid">
                 <div class="project-item">
-                    <!-- English version -->
-                    <h3 class="lang-en">Full Stack Restaurant Website</h3>
-                    <!-- French version -->
-                    <h3 class="lang-fr" style="display: none;">Site Web Full Stack pour Restaurant</h3>
-                    <!-- English version -->
-                    <p class="lang-en">Responsive restaurant website with menu and reservations management.</p>
-                    <!-- French version -->
-                    <p class="lang-fr" style="display: none;">Site web responsive pour restaurant avec gestion du menu et des réservations.</p>
-                    <div class="project-tech">Technologies: Flask, MySQL</div>
+                    <h3 class="lang-en">Real-Time Electoral Voting System</h3>
+                    <h3 class="lang-fr" style="display: none;">Système de Vote Électoral en Temps Réel</h3>
+                    <p class="lang-en">Real-time vote processing with Kafka + Spark Streaming. Aggregation and enrichment of electoral data with PostgreSQL + Streamlit dashboard.</p>
+                    <p class="lang-fr" style="display: none;">Traitement des votes en temps réel avec Kafka + Spark Streaming. Agrégation et enrichissement des données électorales avec PostgreSQL + Streamlit.</p>
+                    <div class="project-tech">Technologies: Apache Kafka, Apache Spark, PostgreSQL, Streamlit</div>
                 </div>
 
                 <div class="project-item">
-                    <!-- English version -->
                     <h3 class="lang-en">Customer Review Sentiment Analysis</h3>
-                    <!-- French version -->
                     <h3 class="lang-fr" style="display: none;">Analyse des Sentiments des Avis Clients</h3>
-                    <!-- English version -->
-                    <p class="lang-en">Real-time classification of customer feedback (positive/negative/neutral).</p>
-                    <!-- French version -->
-                    <p class="lang-fr" style="display: none;">Classification en temps réel des retours clients (positif/négatif/neutre).</p>
+                    <p class="lang-en">Real-time classification of customer feedback (positive/negative/neutral) using NLP and deep learning, served via a Dockerized Flask API.</p>
+                    <p class="lang-fr" style="display: none;">Classification en temps réel des retours clients (positif/négatif/neutre) avec NLP et deep learning, exposé via une API Flask Dockerisée.</p>
                     <div class="project-tech">Technologies: NLP, TensorFlow, Flask, Docker</div>
                 </div>
 
                 <div class="project-item">
-                    <!-- English version -->
-                    <h3 class="lang-en">Real-Time Electoral Voting System</h3>
-                    <!-- French version -->
-                    <h3 class="lang-fr" style="display: none;">Système de Vote Électoral en Temps Réel</h3>
-                    <!-- English version -->
-                    <p class="lang-en">Real-time vote processing using Kafka + Spark Streaming. Aggregation and enrichment of electoral data • PostgreSQL + Streamlit</p>
-                    <!-- French version -->
-                    <p class="lang-fr" style="display: none;">Traitement des votes en temps réel avec Kafka + Spark Streaming. Agrégation et enrichissement des données électorales • PostgreSQL + Streamlit</p>
-                    <div class="project-tech">Technologies: Apache Kafka, Apache Spark, PostgreSQL, Streamlit</div>
+                    <h3 class="lang-en">Full Stack Restaurant Website</h3>
+                    <h3 class="lang-fr" style="display: none;">Site Web Full Stack pour Restaurant</h3>
+                    <p class="lang-en">Responsive restaurant website with menu management and online reservations.</p>
+                    <p class="lang-fr" style="display: none;">Site web responsive pour restaurant avec gestion du menu et des réservations en ligne.</p>
+                    <div class="project-tech">Technologies: Flask, MySQL</div>
                 </div>
             </div>
         </section>
 
         <!-- Education Section -->
         <section id="education" class="section">
-            <!-- English version -->
             <h2 class="section-title lang-en">EDUCATION</h2>
-            <!-- French version -->
             <h2 class="section-title lang-fr" style="display: none;">FORMATION</h2>
-            
+
             <div class="education-item">
-                <!-- English version -->
                 <h3 class="lang-en">Engineering Degree in Computer Science and Systems Management</h3>
-                <!-- French version -->
                 <h3 class="lang-fr" style="display: none;">Diplôme d'Ingénieur en Informatique et Management des Systèmes</h3>
                 <div class="institution">Higher School of Textile and Clothing Industries (ESITH)</div>
-                <div class="date">2024 - 2027</div>
+                <div class="date">2024 – 2027</div>
             </div>
 
             <div class="education-item">
-                <!-- English version -->
                 <h3 class="lang-en">Preparatory Classes for Engineering Schools</h3>
-                <!-- French version -->
                 <h3 class="lang-fr" style="display: none;">Classes Préparatoires aux Grandes Écoles</h3>
-                <div class="institution">Technical High School of Mohammedia - Mathematics and Physics</div>
-                <div class="date">2022 - 2024</div>
+                <div class="institution">Technical High School of Mohammedia — Mathematics and Physics</div>
+                <div class="date">2022 – 2024</div>
             </div>
 
             <div class="education-item">
-                <!-- English version -->
                 <h3 class="lang-en">Baccalaureate in Physics and Chemistry</h3>
-                <!-- French version -->
                 <h3 class="lang-fr" style="display: none;">Baccalauréat en Physique et Chimie</h3>
-                <div class="institution">Physical Sciences BIOF (with highest honors)</div>
+                <div class="institution lang-en">Physical Sciences — with Highest Honors</div>
+                <div class="institution lang-fr" style="display:none">Sciences Physiques — Mention Très Bien</div>
                 <div class="date">2022</div>
             </div>
         </section>
 
-    <!-- Certificates Section -->
-    <section id="certificates" class="section">
-        <!-- English version -->
-        <h2 class="section-title lang-en">CERTIFICATIONS</h2>
-        <!-- French version -->
-        <h2 class="section-title lang-fr" style="display: none;">CERTIFICATIONS</h2>
-        
-        <div class="certificates-list">
-            <div class="certificate-row">
-                <span class="certificate-name">IBM Data Engineering Professional Certificate</span>
-                <span class="certificate-link"> <a href="https://www.coursera.org/account/accomplishments/professional-cert/SIF4JYCJLHVN" target="_blank">https://www.coursera.org/account/accomplishments/professional-cert/SIF4JYCJLHVN</a></span>
+        <!-- Certificates Section -->
+        <section id="certificates" class="section">
+            <h2 class="section-title lang-en">CERTIFICATIONS</h2>
+            <h2 class="section-title lang-fr" style="display: none;">CERTIFICATIONS</h2>
+
+            <div class="certificates-list">
+                <div class="certificate-row">
+                    <span class="certificate-name">IBM Data Engineering Professional Certificate</span>
+                    <span class="certificate-link"><a href="https://www.coursera.org/account/accomplishments/professional-cert/SIF4JYCJLHVN" target="_blank">Coursera ↗</a></span>
+                </div>
+                <div class="certificate-row">
+                    <span class="certificate-name">Advanced Django: Mastering Django and Django Rest Framework</span>
+                    <span class="certificate-link"><a href="https://www.coursera.org/account/accomplishments/specialization/P20GRIZUN67S" target="_blank">Coursera ↗</a></span>
+                </div>
+                <div class="certificate-row">
+                    <span class="certificate-name">Spring Boot Web Development with Java</span>
+                    <span class="certificate-link"><a href="https://www.coursera.org/account/accomplishments/specialization/0KIOX1P3F3ZY" target="_blank">Coursera ↗</a></span>
+                </div>
+                <div class="certificate-row">
+                    <span class="certificate-name lang-en">Microsoft Excel Professional Certificate</span>
+                    <span class="certificate-name lang-fr" style="display:none">Certificat Professionnel Microsoft Excel</span>
+                    <span class="certificate-link"><a href="https://www.coursera.org/account/accomplishments/specialization/MPN7GR4Z7B26" target="_blank">Coursera ↗</a></span>
+                </div>
+                <div class="certificate-row">
+                    <span class="certificate-name lang-en">Excel Skills for Business: Essentials</span>
+                    <span class="certificate-name lang-fr" style="display:none">Excel Skills for Business : Essentiels</span>
+                    <span class="certificate-link"><a href="https://www.coursera.org/account/accomplishments/verify/X54T5Q9DET9P" target="_blank">Coursera ↗</a></span>
+                </div>
+                <div class="certificate-row">
+                    <span class="certificate-name">Data Analysis and Visualization with Power BI</span>
+                    <span class="certificate-link"><a href="https://www.coursera.org/account/accomplishments/certificate/R9682NHSDZVU" target="_blank">Coursera ↗</a></span>
+                </div>
+                <div class="certificate-row">
+                    <span class="certificate-name lang-en">Programming in Python</span>
+                    <span class="certificate-name lang-fr" style="display:none">Programmation en Python</span>
+                    <span class="certificate-link"><a href="https://www.coursera.org/account/accomplishments/certificate/PJXGBE1UBK67" target="_blank">Coursera ↗</a></span>
+                </div>
             </div>
-            <div class="certificate-row">
-                <span class="certificate-name">Advanced Django: Mastering Django and Django Rest Framework</span>
-                <span class="certificate-link"> <a href="https://www.coursera.org/account/accomplishments/specialization/P20GRIZUN67S" target="_blank">https://www.coursera.org/account/accomplishments/specialization/P20GRIZUN67S</a></span>
-            </div>
-            <div class="certificate-row">
-                <!-- English version -->
-                <span class="certificate-name lang-en">Spring Boot Web Development with Java</span>
-                <!-- French version -->
-                <span class="certificate-name lang-fr" style="display: none;">Spring Boot Web Development with Java</span>
-                <span class="certificate-link"> <a href="https://www.coursera.org/account/accomplishments/specialization/0KIOX1P3F3ZY" target="_blank">https://www.coursera.org/account/accomplishments/specialization/0KIOX1P3F3ZY</a></span>
-            </div>
-            <div class="certificate-row">
-                <!-- English version -->
-                <span class="certificate-name lang-en">Microsoft Excel Professional Certificate</span>
-                <!-- French version -->
-                <span class="certificate-name lang-fr" style="display: none;">Certificat Professionnel Microsoft Excel</span>
-                <span class="certificate-link"> <a href="https://www.coursera.org/account/accomplishments/specialization/MPN7GR4Z7B26" target="_blank">https://www.coursera.org/account/accomplishments/specialization/MPN7GR4Z7B26</a></span>
-            </div>
-            <div class="certificate-row">
-                <!-- English version -->
-                <span class="certificate-name lang-en">Excel Skills for Business: Essentials</span>
-                <!-- French version -->
-                <span class="certificate-name lang-fr" style="display: none;">Excel Skills for Business : Essentiels</span>
-                <span class="certificate-link"> <a href="https://www.coursera.org/account/accomplishments/verify/X54T5Q9DET9P" target="_blank">https://www.coursera.org/account/accomplishments/verify/X54T5Q9DET9P</a></span>
-            </div>
-            <div class="certificate-row">
-                <span class="certificate-name">Data Analysis and Visualization with Power BI</span>
-                <span class="certificate-link"> <a href="https://www.coursera.org/account/accomplishments/certificate/R9682NHSDZVU" target="_blank">https://www.coursera.org/account/accomplishments/certificate/R9682NHSDZVU</a></span>
-            </div>
-            <div class="certificate-row">
-                <!-- English version -->
-                <span class="certificate-name lang-en">Programming in Python</span>
-                <!-- French version -->
-                <span class="certificate-name lang-fr" style="display: none;">Programmation en Python</span>
-                <span class="certificate-link"> <a href="https://www.coursera.org/account/accomplishments/certificate/PJXGBE1UBK67" target="_blank">https://www.coursera.org/account/accomplishments/certificate/PJXGBE1UBK67</a></span>
-            </div>
-        </div>
-    </section>
+        </section>
 
         <!-- Download CV Section -->
         <section id="download" class="download-cv-section">
-            <!-- English version -->
             <h2 class="download-cv-title lang-en">Download my resume</h2>
-            <!-- French version -->
             <h2 class="download-cv-title lang-fr" style="display: none;">Télécharger mon CV</h2>
-            
-            <!-- English version -->
-            <a href="cv_ismail_jirari_en.pdf" class="download-cv-button lang-en" download="cv_ismail_jirari_en.pdf">
-                Ismail_JIRARI_CV_EN
-            </a>
-            <!-- French version -->
-            <a href="cv_ismail_jirari_fr.pdf" class="download-cv-button lang-fr" style="display: none;" download="cv_ismail_jirari_fr.pdf">
-                Ismail_JIRARI_CV_FR
-            </a>
+            <a href="cv_ismail_jirari_en.pdf" class="download-cv-button lang-en" download="cv_ismail_jirari_en.pdf">Ismail_JIRARI_CV_EN</a>
+            <a href="cv_ismail_jirari_fr.pdf" class="download-cv-button lang-fr" style="display: none;" download="cv_ismail_jirari_fr.pdf">Ismail_JIRARI_CV_FR</a>
         </section>
 
         <!-- Contact & Additional Information -->
         <section id="contact" class="section">
-            <!-- English version -->
-            <h2 class="section-title lang-en">CONTACT & INFO</h2>
-            <!-- French version -->
-            <h2 class="section-title lang-fr" style="display: none;">CONTACT & INFOS</h2>
-            
+            <h2 class="section-title lang-en">CONTACT &amp; INFO</h2>
+            <h2 class="section-title lang-fr" style="display: none;">CONTACT &amp; INFOS</h2>
+
             <div class="contact-grid">
                 <div>
-                    <!-- English version -->
                     <h3 style="color: #00ff88; margin-bottom: 1rem;" class="lang-en">Contact</h3>
-                    <!-- French version -->
                     <h3 style="color: #00ff88; margin-bottom: 1rem;" class="lang-fr" style="display: none;">Contact</h3>
                     <div class="contact-info">
                         <div class="contact-item">
-                            <span></span>
+                            <span>✉</span>
                             <a href="mailto:ismailjirari5@gmail.com">ismailjirari5@gmail.com</a>
                         </div>
                         <div class="contact-item">
-                            <span></span>
+                            <span>📞</span>
                             <a href="tel:+212760058308">+212 7 60 05 83 08</a>
                         </div>
                         <div class="contact-item">
-                            <span></span>
+                            <span>🔗</span>
                             <a href="https://www.linkedin.com/in/ismail-jirari-713346335/" target="_blank">LinkedIn</a>
                         </div>
                         <div class="contact-item">
-                            <span></span>
+                            <span>💻</span>
                             <a href="https://github.com/ismailjirari" target="_blank">GitHub</a>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <!-- English version -->
                     <h3 style="color: #00ff88; margin-bottom: 1rem;" class="lang-en">Languages</h3>
-                    <!-- French version -->
                     <h3 style="color: #00ff88; margin-bottom: 1rem;" class="lang-fr" style="display: none;">Langues</h3>
                     <div class="skills-grid" style="grid-template-columns: repeat(1, 1fr);">
-                        <!-- English version -->
-                        <div class="skill-item lang-en">Arabic - Native</div>
-                        <div class="skill-item lang-en">French - Fluent</div>
-                        <div class="skill-item lang-en">English - Fluent</div>
-                        <!-- French version -->
-                        <div class="skill-item lang-fr" style="display: none;">Arabe - Langue maternelle</div>
-                        <div class="skill-item lang-fr" style="display: none;">Français - Courant</div>
-                        <div class="skill-item lang-fr" style="display: none;">Anglais - Courant</div>
+                        <div class="skill-item lang-en">Arabic — Native</div>
+                        <div class="skill-item lang-en">French — Fluent</div>
+                        <div class="skill-item lang-en">English — Fluent</div>
+                        <div class="skill-item lang-fr" style="display: none;">Arabe — Langue maternelle</div>
+                        <div class="skill-item lang-fr" style="display: none;">Français — Courant</div>
+                        <div class="skill-item lang-fr" style="display: none;">Anglais — Courant</div>
                     </div>
                 </div>
 
                 <div>
-                    <!-- English version -->
                     <h3 style="color: #00ff88; margin-bottom: 1rem;" class="lang-en">Key Qualities</h3>
-                    <!-- French version -->
                     <h3 style="color: #00ff88; margin-bottom: 1rem;" class="lang-fr" style="display: none;">Qualités Clés</h3>
                     <div class="qualities-grid">
-                        <!-- English version -->
                         <span class="quality-tag lang-en">Teamwork</span>
                         <span class="quality-tag lang-en">Results communication</span>
                         <span class="quality-tag lang-en">Adaptability</span>
-                        <span class="quality-tag lang-en">Rigor and methodology</span>
+                        <span class="quality-tag lang-en">Rigor &amp; methodology</span>
                         <span class="quality-tag lang-en">Analytical mindset</span>
                         <span class="quality-tag lang-en">Optimization mindset</span>
                         <span class="quality-tag lang-en">Versatility</span>
                         <span class="quality-tag lang-en">Public speaking</span>
-                        
-                        <!-- French version -->
                         <span class="quality-tag lang-fr" style="display: none;">Travail d'équipe</span>
                         <span class="quality-tag lang-fr" style="display: none;">Communication des résultats</span>
                         <span class="quality-tag lang-fr" style="display: none;">Adaptabilité</span>
@@ -928,48 +1008,24 @@
                 </div>
 
                 <div>
-                    <!-- English version -->
                     <h3 style="color: #00ff88; margin-bottom: 1rem;" class="lang-en">Extracurricular</h3>
-                    <!-- French version -->
                     <h3 style="color: #00ff88; margin-bottom: 1rem;" class="lang-fr" style="display: none;">Extra-scolaire</h3>
                     <div class="contact-info">
                         <div class="contact-item">
-                            <span></span>
-                            <!-- English version -->
-                            <span class="lang-en">Board Member - Cybotics Club ESITH</span>
-                            <!-- French version -->
-                            <span class="lang-fr" style="display: none;">Membre du Bureau - Club Cybotics ESITH</span>
+                            <span>🤖</span>
+                            <span class="lang-en">Board Member — Cybotics Club ESITH</span>
+                            <span class="lang-fr" style="display: none;">Membre du Bureau — Club Cybotics ESITH</span>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <!-- English version -->
                     <h3 style="color: #00ff88; margin-bottom: 1rem;" class="lang-en">Interests</h3>
-                    <!-- French version -->
                     <h3 style="color: #00ff88; margin-bottom: 1rem;" class="lang-fr" style="display: none;">Centres d'intérêt</h3>
                     <div class="contact-info">
-                        <div class="contact-item">
-                            <span></span>
-                            <!-- English version -->
-                            <span class="lang-en">Sports</span>
-                            <!-- French version -->
-                            <span class="lang-fr" style="display: none;">Sports</span>
-                        </div>
-                        <div class="contact-item">
-                            <span></span>
-                            <!-- English version -->
-                            <span class="lang-en">Travel</span>
-                            <!-- French version -->
-                            <span class="lang-fr" style="display: none;">Voyages</span>
-                        </div>
-                        <div class="contact-item">
-                            <span></span>
-                            <!-- English version -->
-                            <span class="lang-en">Technology</span>
-                            <!-- French version -->
-                            <span class="lang-fr" style="display: none;">Technologie</span>
-                        </div>
+                        <div class="contact-item"><span>⚽</span><span class="lang-en">Sports</span><span class="lang-fr" style="display:none">Sports</span></div>
+                        <div class="contact-item"><span>✈️</span><span class="lang-en">Travel</span><span class="lang-fr" style="display:none">Voyages</span></div>
+                        <div class="contact-item"><span>💡</span><span class="lang-en">Technology</span><span class="lang-fr" style="display:none">Technologie</span></div>
                     </div>
                 </div>
             </div>
@@ -978,9 +1034,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <!-- English version -->
         <p class="lang-en">&copy; 2026 Ismail JIRARI. All rights reserved.</p>
-        <!-- French version -->
         <p class="lang-fr" style="display: none;">&copy; 2026 Ismail JIRARI. Tous droits réservés.</p>
     </footer>
 
@@ -989,38 +1043,40 @@
 
     <script>
         function switchLanguage(lang) {
-            // Update body class
             document.body.className = lang === 'en' ? 'lang-mode-en' : 'lang-mode-fr';
-            
-            // Update active button states
-            const buttons = document.querySelectorAll('.lang-btn');
-            buttons.forEach(btn => {
-                if ((lang === 'en' && btn.textContent === 'EN') || 
-                    (lang === 'fr' && btn.textContent === 'FR')) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active',
+                    (lang === 'en' && btn.textContent === 'EN') ||
+                    (lang === 'fr' && btn.textContent === 'FR')
+                );
             });
-
-            // Show/hide language-specific content
-            const enElements = document.querySelectorAll('.lang-en');
-            const frElements = document.querySelectorAll('.lang-fr');
-            
-            if (lang === 'en') {
-                enElements.forEach(el => el.style.display = '');
-                frElements.forEach(el => el.style.display = 'none');
-            } else {
-                enElements.forEach(el => el.style.display = 'none');
-                frElements.forEach(el => el.style.display = '');
-            }
+            document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
+            document.querySelectorAll('.lang-fr').forEach(el => el.style.display = lang === 'fr' ? '' : 'none');
         }
 
-        // Initialize with English
+        function toggleMobileNav() {
+            const nav = document.getElementById('mobileNav');
+            const ham = document.getElementById('hamburger');
+            nav.classList.toggle('open');
+            ham.classList.toggle('open');
+        }
+
+        function closeMobileNav() {
+            document.getElementById('mobileNav').classList.remove('open');
+            document.getElementById('hamburger').classList.remove('open');
+        }
+
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(e) {
+            const nav = document.getElementById('mobileNav');
+            const ham = document.getElementById('hamburger');
+            if (!nav.contains(e.target) && !ham.contains(e.target)) {
+                nav.classList.remove('open');
+                ham.classList.remove('open');
+            }
+        });
+
         switchLanguage('en');
     </script>
 </body>
-
 </html>
-
-
